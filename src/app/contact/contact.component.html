@@ -5,23 +5,54 @@
           <div class="col-lg-8">
               <div class="contact-form-card">
                   <h4 class="contact-title">Send a message</h4>
-                  <form asp-action="SendEmail" asp-controller="Home" method="post">
-                      <div class="form-group">
-                          <input asp-for="Name" class="form-control" type="text" placeholder="Name *" required />
-                          <span asp-validation-for="Name" class="text-danger"></span>
-                      </div>
-                      <div class="form-group">
-                          <input asp-for="Email" class="form-control" type="email" placeholder="Email *" required />
-                          <span asp-validation-for="Email" class="text-danger"></span>
-                      </div>
-                      <div class="form-group">
-                          <textarea asp-for="Message" class="form-control" placeholder="Message *" rows="7" required></textarea>
-                          <span asp-validation-for="Message" class="text-danger"></span>
-                      </div>
-                      <div class="form-group">
-                          <button type="submit" class="form-control btn btn-primary">Send Message</button>
-                      </div>
+                  <form #contactForm="ngForm" (ngSubmit)="sendMessage()">
+                    <div class="form-group">
+                      <input
+                        [(ngModel)]="mail.name"
+                        name="name"
+                        class="form-control"
+                        type="text"
+                        placeholder="Name *"
+                        required
+                        #name="ngModel"
+                      />
+                      <span *ngIf="name.invalid && name.touched" class="text-danger">Name is required</span>
+                    </div>
+
+                    <div class="form-group">
+                      <input
+                        [(ngModel)]="mail.email"
+                        name="email"
+                        class="form-control"
+                        type="email"
+                        placeholder="Email *"
+                        required
+                        #email="ngModel"
+                        email
+                      />
+                      <span *ngIf="email.invalid && email.touched" class="text-danger">Valid email is required</span>
+                    </div>
+
+                    <div class="form-group">
+                      <textarea
+                        [(ngModel)]="mail.message"
+                        name="message"
+                        class="form-control"
+                        placeholder="Message *"
+                        rows="7"
+                        required
+                        #message="ngModel"
+                      ></textarea>
+                      <span *ngIf="message.invalid && message.touched" class="text-danger">Message is required</span>
+                    </div>
+
+                    <div class="form-group">
+                      <button type="submit" class="form-control btn btn-primary" [disabled]="contactForm.invalid">
+                        Send Message
+                      </button>
+                    </div>
                   </form>
+
               </div>
           </div>
           <div class="col-lg-4">
